@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Wedding — Mathiyazhahan & Sowmiya</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --accent:#ff2a7a;
+    --card:#ffffff;
+    --font-head:"Cormorant Garamond", serif;
+    --font-body:"Mulish", sans-serif;
+    --maxw:920px;
+
+    /* increased title size as requested */
+    --title-lg:clamp(1.4rem, 3.5vw, 1.9rem);
+    --hero-name:clamp(2.4rem, 6.6vw, 3.9rem);
+    --section-title:clamp(1.3rem, 3.2vw, 1.7rem);
+    --card-h3:clamp(1.15rem, 3vw, 1.35rem);
+    --lead-size:clamp(1rem, 2.4vw, 1.1rem);
+    --body-size:clamp(.92rem, 2.3vw, 1rem);
+
+    /* Parallax intensity (in px) */
+    --px: 0;
+    --py: 0;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;padding:0;font-family:var(--font-body);-webkit-font-smoothing:antialiased;color:#3a2730;overflow-x:hidden}
+
+/* -------------------------
+   Animated background container
+   - contains 3 gradient layers that crossfade
+   - plus floating blob overlays
+   ------------------------- */
+
+  .bg-animated{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:visible;
+    transform-origin:center;
+    transition: transform .16s linear;
+    filter: drop-shadow(0 10px 26px rgba(0,0,0,0.06));
+  }
+
+  /* each gradient layer covers full area, uses background-size & position animation for subtle motion */
+  .bg-layer{
+    position:absolute;inset:0;will-change:opacity, background-position, transform, filter;
+    background-repeat:no-repeat;
+    background-size: 240% 240%, 100% 100%;
+    background-position: 0% 50%, 50% 50%;
+    opacity:0;
+    transition: opacity .9s linear;
+  }
+
+  /* Gradient variants (you can edit the color stops) */
+  .g1{
+    background-image:
+      linear-gradient(120deg,#ff174f 0%, #ff7acb 30%, #ff9ee6 55%, #7fc8ff 80%),
+      radial-gradient(600px 420px at calc(10% + var(--px)) calc(20% + var(--py)), rgba(255,255,255,0.07), transparent 20%);
+    animation: gMove1 28s linear infinite;
+  }
+  .g2{
+    background-image:
+      linear-gradient(120deg,#ffb199 0%, #ffd6e8 30%, #ffd7ff 58%, #b0f0ff 80%),
+      radial-gradient(600px 420px at calc(30% + var(--px)) calc(30% + var(--py)), rgba(255,255,255,0.06), transparent 20%);
+    animation: gMove2 34s linear infinite;
+  }
+  .g3{
+    background-image:
+      linear-gradient(120deg,#ffd7e6 0%, #ff9ee6 30%, #ff5aa0 60%, #9be7ff 90%),
+      radial-gradient(600px 420px at calc(70% - var(--px)) calc(70% - var(--py)), rgba(255,255,255,0.05), transparent 20%);
+    animation: gMove3 30s linear infinite;
+  }
+
+  /* subtle background-position motion for each layer */
+  @keyframes gMove1{
+    0%{ background-position: 0% 50%, 50% 50%; transform: scale(1);}
+    50%{ background-position: 50% 60%, 55% 45%; transform: scale(1.01);}
+    100%{ background-position: 0% 50%, 50% 50%; transform: scale(1);}
+  }
+  @keyframes gMove2{
+    0%{ background-position: 10% 40%, 45% 55%; transform: scale(1);}
+    50%{ background-position: 60% 55%, 50% 50%; transform: scale(1.02);}
+    100%{ background-position: 10% 40%, 45% 55%; transform: scale(1);}
+  }
+  @keyframes gMove3{
+    0%{ background-position: 90% 60%, 55% 45%; transform: scale(1);}
+    50%{ background-position: 30% 40%, 40% 60%; transform: scale(1.01);}
+    100%{ background-position: 90% 60%, 55% 45%; transform: scale(1);}
+  }
+
+  /* crossfade cycle: each layer's opacity is animated so they smoothly shift in/out */
+  .g1 { animation-name: gMove1, fadeCycle1; animation-duration: 28s, 18s; animation-timing-function: linear, ease-in-out; animation-iteration-count: infinite, infinite; }
+  .g2 { animation-name: gMove2, fadeCycle2; animation-duration: 34s, 18s; animation-timing-function: linear, ease-in-out; animation-iteration-count: infinite, infinite; }
+  .g3 { animation-name: gMove3, fadeCycle3; animation-duration: 30s, 18s; animation-timing-function: linear, ease-in-out; animation-iteration-count: infinite, infinite; }
+
+  /* fade cycles staggered so one fades in while another fades out */
+  @keyframes fadeCycle1{
+    0%{opacity:1}
+    25%{opacity:1}
+    33%{opacity:0}
+    100%{opacity:0}
+  }
+  @keyframes fadeCycle2{
+    0%{opacity:0}
+    25%{opacity:0}
+    33%{opacity:1}
+    58%{opacity:1}
+    66%{opacity:0}
+    100%{opacity:0}
+  }
+  @keyframes fadeCycle3{
+    0%{opacity:0}
+    58%{opacity:0}
+    66%{opacity:1}
+    100%{opacity:1}
+  }
+
+  /* floating organic blobs for depth — attached to container via pseudo elements */
+  .bg-animated::before,
+  .bg-animated::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+    background-repeat:no-repeat;
+    background-size: 60% 60%, 40% 40%;
+    opacity:0.12;
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+    transition: opacity .25s linear;
+  }
+
+  .bg-animated::before{
+    background-image:
+      radial-gradient(closest-side at 20% 30%, rgba(255,250,255,0.95), rgba(255,120,160,0.65) 30%, transparent 45%),
+      radial-gradient(closest-side at 80% 80%, rgba(160,220,255,0.88), rgba(120,180,255,0.55) 28%, transparent 45%);
+    transform: translate3d(calc(var(--px) * 1.6), calc(var(--py) * 0.6), 0) scale(1.02);
+    animation: blobA 34s ease-in-out infinite;
+  }
+  .bg-animated::after{
+    background-image:
+      radial-gradient(closest-side at 10% 80%, rgba(255,200,240,0.9), rgba(255,120,190,0.55) 28%, transparent 48%),
+      radial-gradient(closest-side at 85% 20%, rgba(240,240,255,0.9), rgba(200,150,255,0.55) 28%, transparent 48%);
+    transform: translate3d(calc(var(--px) * -1.3), calc(var(--py) * -0.9), 0) scale(1);
+    animation: blobB 46s ease-in-out infinite;
+  }
+
+  @keyframes blobA{
+    0%{ transform: translate3d(calc(var(--px) * 1.6), calc(var(--py) * 0.6), 0) scale(1.02) translateY(-3%); opacity:0.11;}
+    50%{ transform: translate3d(calc(var(--px) * 2.0), calc(var(--py) * 0.9), 0) scale(1.05) translateY(4%); opacity:0.14;}
+    100%{ transform: translate3d(calc(var(--px) * 1.6), calc(var(--py) * 0.6), 0) scale(1.02) translateY(-3%); opacity:0.11;}
+  }
+  @keyframes blobB{
+    0%{ transform: translate3d(calc(var(--px) * -1.3), calc(var(--py) * -0.9), 0) scale(1) translateY(2%); opacity:0.10;}
+    50%{ transform: translate3d(calc(var(--px) * -1.8), calc(var(--py) * -1.2), 0) scale(1.04) translateY(-4%); opacity:0.13;}
+    100%{ transform: translate3d(calc(var(--px) * -1.3), calc(var(--py) * -0.9), 0) scale(1) translateY(2%); opacity:0.10;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .g1,.g2,.g3, .bg-animated::before, .bg-animated::after { animation: none !important; transition: none !important; opacity: 1 !important; }
+  }
+
+/* -------------------------
+   Page content (unchanged)
+   ------------------------- */
+
+  .page{width:100%;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:8px 18px;}
+  .column{width:100%;max-width:var(--maxw);background:rgba(255,255,255,0.96);border-radius:18px;padding:26px;box-shadow:0 18px 40px rgba(0,0,0,0.14);display:flex;flex-direction:column;gap:22px;align-items:center}
+
+  .column, .column *{text-align:center}
+  .column > *{width:100%;max-width:900px}
+
+  .title{font-family:var(--font-head);font-size:var(--title-lg);color:#5a1530;margin:0}
+  .title-deco{height:6px;width:160px;border-radius:999px;margin:10px auto;background:linear-gradient(90deg,#ffd6e8,#ff8fcf,#ff5aa0)}
+
+  .hero{background:var(--card);padding:20px;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,0.08);display:flex;flex-direction:column;gap:10px}
+  .hero h1{font-family:var(--font-head);font-size:var(--hero-name);font-weight:600;letter-spacing:0.5px;background:linear-gradient(90deg,#ff6aa6,#ff2a7a,#c44bff);-webkit-background-clip:text;color:transparent;margin:4px 0 8px}
+  .hero p{font-size:var(--lead-size);color:#6b4a4a;margin-top:2px}
+
+  .meta-card{display:inline-block;background:white;padding:12px 16px;border-radius:14px;box-shadow:0 8px 16px rgba(0,0,0,0.06);font-size:.97rem;border:1px solid rgba(0,0,0,0.04)}
+
+  .section-title{font-family:var(--font-head);font-size:var(--section-title);color:#4b1230;margin:0;margin-top:4px;font-weight:600}
+  .section-title::after{content:'';display:block;height:6px;width:100px;border-radius:999px;margin:6px auto;background:linear-gradient(90deg,#ffd7e6,#ff7aa6)}
+
+  .lead{font-size:var(--lead-size);color:#6b4a4a;margin-top:-4px}
+
+  .card{background:var(--card);padding:18px;border-radius:14px;box-shadow:0 10px 24px rgba(0,0,0,0.07);border:1px solid rgba(0,0,0,0.04);transition:.25s;max-width:880px;margin:auto}
+  .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.10)}
+  .card h3{font-family:var(--font-head);font-size:var(--card-h3);margin-bottom:8px;font-weight:600;color:#4b1f2f}
+  .card p{font-size:var(--body-size);color:#412530;line-height:1.5}
+
+  .card h3.emoji{display:flex;justify-content:center;gap:10px}
+
+  .countdown-box{background:var(--card);padding:16px;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,0.07);width:100%;max-width:760px}
+  .count-items{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .unit{flex:1 1 78px;min-width:70px;background:white;padding:12px;border-radius:12px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 6px 14px rgba(0,0,0,0.05)}
+  .unit .n{font-weight:600;font-size:clamp(1.15rem,3vw,1.5rem);font-family:var(--font-head)}
+  .unit small{display:block;margin-top:6px;color:#6b4a4a;font-size:.78rem}
+
+  footer{font-size:.92rem;color:#5b3a3c;margin-top:12px}
+
+  @media(max-width:480px){
+    .hero h1{font-size:clamp(2rem,9vw,3rem)}
+    .title{font-size:clamp(1.2rem,4.5vw,1.6rem)}
+    .card{padding:14px}
+  }
+
+</style>
+</head>
+
+<body>
+  <!-- container with three gradient layers -->
+  <div class="bg-animated" aria-hidden="true">
+    <div class="bg-layer g1" aria-hidden="true"></div>
+    <div class="bg-layer g2" aria-hidden="true"></div>
+    <div class="bg-layer g3" aria-hidden="true"></div>
+  </div>
+
+  <div class="page">
+    <div class="column" role="main">
+
+      <h2 class="title">Wedding Invitation</h2>
+      <div class="title-deco"></div>
+
+      <section class="hero">
+        <h1>Mathiyazhahan <span style="color:var(--accent)">&</span> Sowmiya</h1>
+        <p>Two families, one celebration — we're delighted to have you join us.</p>
+
+        <div class="meta-card">
+          <div style="line-height:1.35">
+            <div><strong>Reception</strong> — Nov 30, 2025 • 7:00 PM (Sunday)</div>
+            <div style="margin-top:6px"><strong>Ceremony</strong> — Dec 01, 2025 • 6:00 AM (Monday)</div>
+          </div>
+        </div>
+      </section>
+
+      <h3 class="section-title">Meet the Couple</h3>
+      <p class="lead">A warm introduction to the bride and groom.</p>
+
+      <article class="card">
+        <h3>🤵 Groom</h3>
+        <p><strong>S. Mathiyazhahan</strong><br>DGT, B.Tech (Textile Technology)<br><strong>Industrial Engineer</strong><br>AGK Apparels Pvt. Ltd., Musiri<br>Also associated with SCM Garments Pvt. Ltd., Tiruppur</p>
+      </article>
+
+      <article class="card">
+        <h3>👰 Bride</h3>
+        <p><strong>S. Sowmiya</strong><br>M.Sc (CDF)<br><strong>Junior Merchandiser</strong><br>Sakthi Infra Pvt. Ltd., Perundurai</p>
+      </article>
+
+      <h3 class="section-title">Event Schedule</h3>
+      <p class="lead">Join us as we begin a new chapter.</p>
+
+      <article class="card">
+        <h3 class="emoji"><span>🌺</span> Reception</h3>
+        <p><strong>Sunday, 30 November 2025</strong><br>7:00 PM onwards<br><strong>Sri Mahal, Konganapuram</strong></p>
+      </article>
+
+      <article class="card">
+        <h3 class="emoji"><span>💍</span> Wedding Ceremony</h3>
+        <p><strong>Monday, 01 December 2025</strong><br>6:00 AM – 7:20 AM<br><strong>Sri Balathandayuthapani Temple, Vellakkalpatty</strong></p>
+      </article>
+
+      <h3 class="section-title">Locations</h3>
+      <p class="lead">Find the event venues below.</p>
+
+      <article class="card">
+        <h3>🌺 Reception Venue</h3>
+        <p><strong>Sri Mahal, Konganapuram</strong><br>Sri Mallan Mahal is located near the Konganapuram junction. Easily accessible from Edappadi, Sankari, Omalur, Elampillai & Magudanchavadi.</p>
+        <p><a href="https://maps.app.goo.gl/qKrHFbEg52PGXJfc7" target="_blank">📌 Open map</a></p>
+      </article>
+
+      <article class="card">
+        <h3>💍 Ceremony Venue</h3>
+        <p><strong>Sri Balathandayuthapani Temple, Vellakkalpatty</strong><br>Located on the Thangayur–Konganapuram route. Easily reachable from nearby towns.</p>
+        <p><a href="https://maps.app.goo.gl/duzRbAgK5hwgx5Kj6" target="_blank">📌 Open map</a></p>
+      </article>
+
+      <div class="countdown-box">
+        <h4 style="margin:0;font-family:var(--font-head);font-weight:600;font-size:1.1rem">Save the Date</h4>
+        <div class="count-items">
+          <div class="unit"><div class="n" id="days">00</div><small>Days</small></div>
+          <div class="unit"><div class="n" id="hours">00</div><small>Hours</small></div>
+          <div class="unit"><div class="n" id="minutes">00</div><small>Minutes</small></div>
+          <div class="unit"><div class="n" id="seconds">00</div><small>Seconds</small></div>
+        </div>
+      </div>
+
+      <footer>Made with ❤️ by Mathiyazhahan & Sowmiya</footer>
+
+    </div>
+  </div>
+
+<script>
+/* -------------------------
+   Countdown (unchanged)
+   ------------------------- */
+(function(){
+  const targetMs = new Date('2025-11-30T19:00:00+05:30').getTime();
+  const d=document.getElementById('days'), h=document.getElementById('hours'), m=document.getElementById('minutes'), s=document.getElementById('seconds');
+  function pad(x){return("")+x.toString().padStart(2,'0');}
+  function tick(){
+    let diff = targetMs - Date.now(); diff=Math.max(0,diff);
+    let D=Math.floor(diff/86400000); diff%=86400000;
+    let H=Math.floor(diff/3600000); diff%=3600000;
+    let M=Math.floor(diff/60000); let S=Math.floor((diff%60000)/1000);
+    d.textContent=pad(D);h.textContent=pad(H);m.textContent=pad(M);s.textContent=pad(S);
+  }
+  tick(); setInterval(tick,1000);
+})();
+
+/* -------------------------
+   Mouse parallax for bg
+   - updates CSS vars --px and --py used by background layers
+   - respects prefers-reduced-motion
+   ------------------------- */
+(function(){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const root = document.documentElement;
+  let raf = null;
+  let tx = 0, ty = 0;
+  function onMove(e){
+    const x = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+    const y = (e.touches && e.touches[0]) ? e.touches[0].clientY : e.clientY;
+    const nx = (x / window.innerWidth) * 2 - 1;
+    const ny = (y / window.innerHeight) * 2 - 1;
+    tx = nx * 6;
+    ty = ny * 6;
+    if (!raf) raf = requestAnimationFrame(apply);
+  }
+  function apply(){
+    raf = null;
+    const curPX = parseFloat(getComputedStyle(root).getPropertyValue('--px')) || 0;
+    const curPY = parseFloat(getComputedStyle(root).getPropertyValue('--py')) || 0;
+    const newPX = curPX + (tx - curPX) * 0.12;
+    const newPY = curPY + (ty - curPY) * 0.12;
+    root.style.setProperty('--px', newPX + 'px');
+    root.style.setProperty('--py', newPY + 'px');
+  }
+  window.addEventListener('mousemove', onMove, {passive:true});
+  window.addEventListener('touchmove', onMove, {passive:true});
+  setInterval(()=> {
+    tx *= 0.92; ty *= 0.92;
+    if (!raf) raf = requestAnimationFrame(apply);
+  }, 60);
+})();
+</script>
+
+</body>
+</html>
