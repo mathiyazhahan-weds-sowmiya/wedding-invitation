@@ -181,20 +181,24 @@
   .title-deco{height:6px;width:160px;border-radius:999px;margin:10px auto;background:linear-gradient(90deg,#ffd6e8,#ff8fcf,#ff5aa0)}
 
   .hero{background:var(--card);padding:20px;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,0.08);display:flex;flex-direction:column;gap:10px}
-  /* HERO NAME: red → pink → rose → light blue Valentine variant */
+  /* HERO NAME: red → cherry → pink → rose → green → aqua → light blue → soft gold */
   .hero h1{
     font-family:var(--font-head);
     font-size:var(--hero-name);
     font-weight:700;
     letter-spacing:0.5px;
-    /* chosen palette: red -> bright pink -> rose blush -> light blue */
+    /* palette extended with cherry red (#ff0033) and green (#4CAF50) */
     background-image: linear-gradient(90deg,
-      #e6002b 0%,   /* vivid red */
-      #ff5aa2 33%,  /* bright pink */
-      #ff9fb3 66%,  /* rose / blush */
-      #8fd7ff 100%  /* light blue */
+      #ff0033 0%,     /* cherry red */
+      #e6002b 14%,    /* vivid red */
+      #ff5aa2 30%,    /* bright pink */
+      #ff9fb3 46%,    /* rose / blush */
+      #4CAF50 62%,    /* green */
+      #00cfff 76%,    /* aqua blue */
+      #8fd7ff 88%,    /* light blue */
+      #ffd36b 100%    /* soft gold / peach */
     );
-    background-size: 300% 100%;
+    background-size: 340% 100%;
     background-position: 0% 50%;
     -webkit-background-clip: text;
     background-clip: text;
@@ -202,15 +206,17 @@
     color: transparent;
     margin:4px 0 8px;
     will-change: background-position;
-    animation: redPinkRoseBlue 6.2s ease-in-out infinite;
-    text-shadow: 0 3px 14px rgba(230,0,43,0.08); /* gentle glow using red tint */
+    /* alternate so the animation reverses direction each iteration */
+    animation: redCherryGreenAqua 6.6s ease-in-out infinite alternate;
+    text-shadow: 0 3px 14px rgba(230,0,43,0.08);
   }
 
-  @keyframes redPinkRoseBlue{
+  @keyframes redCherryGreenAqua{
     0%   { background-position: 0% 50%; transform: translateY(0); filter: saturate(1); }
-    25%  { background-position: 50% 50%; transform: translateY(-0.8%); filter: saturate(1.02); }
-    50%  { background-position: 100% 50%; transform: translateY(0); filter: saturate(1.03); }
-    75%  { background-position: 50% 50%; transform: translateY(0.6%); filter: saturate(1.01); }
+    18%  { background-position: 26% 50%; transform: translateY(-0.6%); filter: saturate(1.02); }
+    36%  { background-position: 52% 50%; transform: translateY(0); filter: saturate(1.03); }
+    54%  { background-position: 78% 50%; transform: translateY(0.6%); filter: saturate(1.02); }
+    82%  { background-position: 50% 50%; transform: translateY(0); filter: saturate(1.01); }
     100% { background-position: 0% 50%; transform: translateY(0); filter: saturate(1); }
   }
 
