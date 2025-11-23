@@ -26,6 +26,9 @@
     /* Parallax intensity (in px) */
     --px: 0;
     --py: 0;
+
+    /* map link color (deep rose) */
+    --map-link: #ff3860;
   }
 
   *{box-sizing:border-box}
@@ -164,9 +167,9 @@
     .g1,.g2,.g3, .bg-animated::before, .bg-animated::after { animation: none !important; transition: none !important; opacity: 1 !important; }
   }
 
-/* -------------------------
-   Page content (unchanged)
-   ------------------------- */
+  /* -------------------------
+     Page content (unchanged)
+     ------------------------- */
 
   .page{width:100%;min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:8px 18px;}
   .column{width:100%;max-width:var(--maxw);background:rgba(255,255,255,0.96);border-radius:18px;padding:26px;box-shadow:0 18px 40px rgba(0,0,0,0.14);display:flex;flex-direction:column;gap:22px;align-items:center}
@@ -178,7 +181,44 @@
   .title-deco{height:6px;width:160px;border-radius:999px;margin:10px auto;background:linear-gradient(90deg,#ffd6e8,#ff8fcf,#ff5aa0)}
 
   .hero{background:var(--card);padding:20px;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,0.08);display:flex;flex-direction:column;gap:10px}
-  .hero h1{font-family:var(--font-head);font-size:var(--hero-name);font-weight:600;letter-spacing:0.5px;background:linear-gradient(90deg,#ff6aa6,#ff2a7a,#c44bff);-webkit-background-clip:text;color:transparent;margin:4px 0 8px}
+  /* HERO NAME: red → pink → rose → light blue Valentine variant */
+  .hero h1{
+    font-family:var(--font-head);
+    font-size:var(--hero-name);
+    font-weight:700;
+    letter-spacing:0.5px;
+    /* chosen palette: red -> bright pink -> rose blush -> light blue */
+    background-image: linear-gradient(90deg,
+      #e6002b 0%,   /* vivid red */
+      #ff5aa2 33%,  /* bright pink */
+      #ff9fb3 66%,  /* rose / blush */
+      #8fd7ff 100%  /* light blue */
+    );
+    background-size: 300% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    margin:4px 0 8px;
+    will-change: background-position;
+    animation: redPinkRoseBlue 6.2s ease-in-out infinite;
+    text-shadow: 0 3px 14px rgba(230,0,43,0.08); /* gentle glow using red tint */
+  }
+
+  @keyframes redPinkRoseBlue{
+    0%   { background-position: 0% 50%; transform: translateY(0); filter: saturate(1); }
+    25%  { background-position: 50% 50%; transform: translateY(-0.8%); filter: saturate(1.02); }
+    50%  { background-position: 100% 50%; transform: translateY(0); filter: saturate(1.03); }
+    75%  { background-position: 50% 50%; transform: translateY(0.6%); filter: saturate(1.01); }
+    100% { background-position: 0% 50%; transform: translateY(0); filter: saturate(1); }
+  }
+
+  /* reduced motion fallback */
+  @media (prefers-reduced-motion: reduce){
+    .hero h1 { animation: none; background-position: 50% 50%; transform:none; }
+  }
+
   .hero p{font-size:var(--lead-size);color:#6b4a4a;margin-top:2px}
 
   .meta-card{display:inline-block;background:white;padding:12px 16px;border-radius:14px;box-shadow:0 8px 16px rgba(0,0,0,0.06);font-size:.97rem;border:1px solid rgba(0,0,0,0.04)}
@@ -192,6 +232,14 @@
   .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.10)}
   .card h3{font-family:var(--font-head);font-size:var(--card-h3);margin-bottom:8px;font-weight:600;color:#4b1f2f}
   .card p{font-size:var(--body-size);color:#412530;line-height:1.5}
+
+  /* map links: use deep-rose color and subtle underline on hover */
+  .card a{
+    color: var(--map-link);
+    font-weight:600;
+    text-decoration: none;
+  }
+  .card a:hover{ text-decoration: underline; }
 
   .card h3.emoji{display:flex;justify-content:center;gap:10px}
 
@@ -227,7 +275,7 @@
       <div class="title-deco"></div>
 
       <section class="hero">
-        <h1>Mathiyazhahan <span style="color:var(--accent)">&</span> Sowmiya</h1>
+        <h1>Mathiyazhahan & Sowmiya</h1>
         <p>Two families, one celebration — we're delighted to have you join us.</p>
 
         <div class="meta-card">
@@ -270,13 +318,13 @@
       <article class="card">
         <h3>🌺 Reception Venue</h3>
         <p><strong>Sri Mahal, Konganapuram</strong><br>Sri Mallan Mahal is located near the Konganapuram junction. Easily accessible from Edappadi, Sankari, Omalur, Elampillai & Magudanchavadi.</p>
-        <p><a href="https://maps.app.goo.gl/qKrHFbEg52PGXJfc7" target="_blank">📌 Open map</a></p>
+        <p><a href="https://maps.app.goo.gl/qKrHFbEg52PGXJfc7" target="_blank">📍 Open map</a></p>
       </article>
 
       <article class="card">
         <h3>💍 Ceremony Venue</h3>
         <p><strong>Sri Balathandayuthapani Temple, Vellakkalpatty</strong><br>Located on the Thangayur–Konganapuram route. Easily reachable from nearby towns.</p>
-        <p><a href="https://maps.app.goo.gl/duzRbAgK5hwgx5Kj6" target="_blank">📌 Open map</a></p>
+        <p><a href="https://maps.app.goo.gl/duzRbAgK5hwgx5Kj6" target="_blank">📍 Open map</a></p>
       </article>
 
       <div class="countdown-box">
