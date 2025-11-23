@@ -178,7 +178,40 @@
   .column > *{width:100%;max-width:900px}
 
   .title{font-family:var(--font-head);font-size:var(--title-lg);color:#5a1530;margin:0}
-  .title-deco{height:6px;width:160px;border-radius:999px;margin:10px auto;background:linear-gradient(90deg,#ffd6e8,#ff8fcf,#ff5aa0)}
+
+  /* title deco built from 3 layers so it follows bg layers */
+  .title-deco{
+    position:relative;
+    height:6px;width:160px;border-radius:999px;margin:10px auto;overflow:hidden;
+  }
+  .title-deco .dec-layer{
+    position:absolute;inset:0;border-radius:999px;opacity:0;will-change:opacity, background-position, transform;
+    background-repeat:no-repeat;background-size: 240% 240%, 100% 100%;
+  }
+  /* layer 1 matches .g1 */
+  .title-deco .dec-layer.d1{
+    background-image:
+      linear-gradient(120deg,#ff174f 0%, #ff7acb 30%, #ff9ee6 55%, #7fc8ff 80%),
+      radial-gradient(600px 420px at 10% 20%, rgba(255,255,255,0.07), transparent 20%);
+    animation: gMove1 28s linear infinite, fadeCycle1 18s ease-in-out infinite;
+    animation-delay: 0s, 0s;
+  }
+  /* layer 2 matches .g2 */
+  .title-deco .dec-layer.d2{
+    background-image:
+      linear-gradient(120deg,#ffb199 0%, #ffd6e8 30%, #ffd7ff 58%, #b0f0ff 80%),
+      radial-gradient(600px 420px at 30% 30%, rgba(255,255,255,0.06), transparent 20%);
+    animation: gMove2 34s linear infinite, fadeCycle2 18s ease-in-out infinite;
+    animation-delay: 0s, 0s;
+  }
+  /* layer 3 matches .g3 */
+  .title-deco .dec-layer.d3{
+    background-image:
+      linear-gradient(120deg,#ffd7e6 0%, #ff9ee6 30%, #ff5aa0 60%, #9be7ff 90%),
+      radial-gradient(600px 420px at 70% 70%, rgba(255,255,255,0.05), transparent 20%);
+    animation: gMove3 30s linear infinite, fadeCycle3 18s ease-in-out infinite;
+    animation-delay: 0s, 0s;
+  }
 
   .hero{background:var(--card);padding:20px;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,0.08);display:flex;flex-direction:column;gap:10px}
   /* HERO NAME: red → cherry → pink → rose → green → aqua → light blue → soft gold */
@@ -206,17 +239,14 @@
     color: transparent;
     margin:4px 0 8px;
     will-change: background-position;
-    /* alternate so the animation reverses direction each iteration */
-    animation: redCherryGreenAqua 6.6s ease-in-out infinite alternate;
+    /* full forward+back cycle: go to 100% at 50% of the keyframes then return to 0% by 100% */
+    animation: redCherryGreenAqua 6.6s ease-in-out infinite;
     text-shadow: 0 3px 14px rgba(230,0,43,0.08);
   }
 
   @keyframes redCherryGreenAqua{
     0%   { background-position: 0% 50%; transform: translateY(0); filter: saturate(1); }
-    18%  { background-position: 26% 50%; transform: translateY(-0.6%); filter: saturate(1.02); }
-    36%  { background-position: 52% 50%; transform: translateY(0); filter: saturate(1.03); }
-    54%  { background-position: 78% 50%; transform: translateY(0.6%); filter: saturate(1.02); }
-    82%  { background-position: 50% 50%; transform: translateY(0); filter: saturate(1.01); }
+    50%  { background-position: 100% 50%; transform: translateY(0); filter: saturate(1.03); }
     100% { background-position: 0% 50%; transform: translateY(0); filter: saturate(1); }
   }
 
@@ -229,8 +259,46 @@
 
   .meta-card{display:inline-block;background:white;padding:12px 16px;border-radius:14px;box-shadow:0 8px 16px rgba(0,0,0,0.06);font-size:.97rem;border:1px solid rgba(0,0,0,0.04)}
 
-  .section-title{font-family:var(--font-head);font-size:var(--section-title);color:#4b1230;margin:0;margin-top:4px;font-weight:600}
-  .section-title::after{content:'';display:block;height:6px;width:100px;border-radius:999px;margin:6px auto;background:linear-gradient(90deg,#ffd7e6,#ff7aa6)}
+  .section-title{font-family:var(--font-head);font-size:var(--section-title);color:#4b1230;margin:0;margin-top:4px;font-weight:600;position:relative;display:inline-block;padding-bottom:10px}
+  /* each section underline is a small container with three matching layers */
+  .section-title .section-underline{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:0;
+    height:6px;
+    width:100px;
+    border-radius:999px;
+    overflow:hidden;
+    display:block;
+  }
+  .section-title .section-underline .s-layer{
+    position:absolute;inset:0;border-radius:999px;opacity:0;will-change:opacity, background-position;
+    background-repeat:no-repeat;background-size: 240% 240%, 100% 100%;
+  }
+  .section-title .section-underline .s1{
+    background-image:
+      linear-gradient(120deg,#ff174f 0%, #ff7acb 30%, #ff9ee6 55%, #7fc8ff 80%),
+      radial-gradient(600px 420px at 10% 20%, rgba(255,255,255,0.07), transparent 20%);
+    animation: gMove1 28s linear infinite, fadeCycle1 18s ease-in-out infinite;
+  }
+  .section-title .section-underline .s2{
+    background-image:
+      linear-gradient(120deg,#ffb199 0%, #ffd6e8 30%, #ffd7ff 58%, #b0f0ff 80%),
+      radial-gradient(600px 420px at 30% 30%, rgba(255,255,255,0.06), transparent 20%);
+    animation: gMove2 34s linear infinite, fadeCycle2 18s ease-in-out infinite;
+  }
+  .section-title .section-underline .s3{
+    background-image:
+      linear-gradient(120deg,#ffd7e6 0%, #ff9ee6 30%, #ff5aa0 60%, #9be7ff 90%),
+      radial-gradient(600px 420px at 70% 70%, rgba(255,255,255,0.05), transparent 20%);
+    animation: gMove3 30s linear infinite, fadeCycle3 18s ease-in-out infinite;
+  }
+
+  /* reduced motion fallback for underlines & deco */
+  @media (prefers-reduced-motion: reduce){
+    .title-deco .dec-layer, .section-title .section-underline .s-layer { animation: none !important; opacity: 1 !important; }
+  }
 
   .lead{font-size:var(--lead-size);color:#6b4a4a;margin-top:-4px}
 
@@ -261,6 +329,8 @@
     .hero h1{font-size:clamp(2rem,9vw,3rem)}
     .title{font-size:clamp(1.2rem,4.5vw,1.6rem)}
     .card{padding:14px}
+    .title-deco { width:120px; height:5px; }
+    .section-title .section-underline { width:120px; height:5px; bottom:-2px; }
   }
 
 </style>
@@ -278,7 +348,11 @@
     <div class="column" role="main">
 
       <h2 class="title">Wedding Invitation</h2>
-      <div class="title-deco"></div>
+      <div class="title-deco" aria-hidden="true">
+        <span class="dec-layer d1" aria-hidden="true"></span>
+        <span class="dec-layer d2" aria-hidden="true"></span>
+        <span class="dec-layer d3" aria-hidden="true"></span>
+      </div>
 
       <section class="hero">
         <h1>Mathiyazhahan & Sowmiya</h1>
@@ -292,7 +366,13 @@
         </div>
       </section>
 
-      <h3 class="section-title">Meet the Couple</h3>
+      <h3 class="section-title">Meet the Couple
+        <span class="section-underline" aria-hidden="true">
+          <span class="s-layer s1" aria-hidden="true"></span>
+          <span class="s-layer s2" aria-hidden="true"></span>
+          <span class="s-layer s3" aria-hidden="true"></span>
+        </span>
+      </h3>
       <p class="lead">A warm introduction to the bride and groom.</p>
 
       <article class="card">
@@ -305,7 +385,13 @@
         <p><strong>S. Sowmiya</strong><br>M.Sc (CDF)<br><strong>Junior Merchandiser</strong><br>Sakthi Infra Pvt. Ltd., Perundurai</p>
       </article>
 
-      <h3 class="section-title">Event Schedule</h3>
+      <h3 class="section-title">Event Schedule
+        <span class="section-underline" aria-hidden="true">
+          <span class="s-layer s1" aria-hidden="true"></span>
+          <span class="s-layer s2" aria-hidden="true"></span>
+          <span class="s-layer s3" aria-hidden="true"></span>
+        </span>
+      </h3>
       <p class="lead">Join us as we begin a new chapter.</p>
 
       <article class="card">
@@ -318,7 +404,13 @@
         <p><strong>Monday, 01 December 2025</strong><br>6:00 AM – 7:20 AM<br><strong>Sri Balathandayuthapani Temple, Vellakkalpatty</strong></p>
       </article>
 
-      <h3 class="section-title">Locations</h3>
+      <h3 class="section-title">Locations
+        <span class="section-underline" aria-hidden="true">
+          <span class="s-layer s1" aria-hidden="true"></span>
+          <span class="s-layer s2" aria-hidden="true"></span>
+          <span class="s-layer s3" aria-hidden="true"></span>
+        </span>
+      </h3>
       <p class="lead">Find the event venues below.</p>
 
       <article class="card">
